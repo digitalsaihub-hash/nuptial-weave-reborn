@@ -9,7 +9,7 @@ import cornerTop from "@/assets/corner-top.png";
 import cornerBottom from "@/assets/corner-bottom.png";
 import ganeshaImg from "@/assets/ganesha.png";
 import mandalaImg from "@/assets/mandala.png";
-import musicAsset from "@/assets/vaishnavi-bhargav-wedding.mp3.asset.json";
+import musicAsset from "@/assets/seetha-kalyanam.mp3.asset.json";
 
 
 export const Route = createFileRoute("/invitation")({
@@ -62,10 +62,14 @@ function Mandala({ className = "", opacity = 1 }: { className?: string; opacity?
 function MandalaBackground() {
   const items = useMemo(
     () => [
-      { top: "-10%", left: "-15%", size: 620, dur: 140, rev: false, o: 0.08, color: "text-gold" },
-      { top: "35%", left: "60%", size: 520, dur: 180, rev: true, o: 0.07, color: "text-maroon" },
-      { top: "72%", left: "-10%", size: 560, dur: 200, rev: false, o: 0.06, color: "text-gold" },
-      { top: "8%", left: "68%", size: 380, dur: 160, rev: true, o: 0.07, color: "text-gold-dark" },
+      // Corners — anchored so they hug edges on every viewport
+      { top: "-14%", left: "-14%",  size: "clamp(220px, 42vw, 560px)", dur: 160, rev: false, o: 0.10, color: "text-gold" },
+      { top: "-12%", right: "-14%", size: "clamp(200px, 38vw, 500px)", dur: 200, rev: true,  o: 0.09, color: "text-maroon" },
+      { bottom: "-14%", left: "-12%", size: "clamp(220px, 40vw, 540px)", dur: 220, rev: true,  o: 0.08, color: "text-gold-dark" },
+      { bottom: "-16%", right: "-14%", size: "clamp(240px, 44vw, 600px)", dur: 180, rev: false, o: 0.10, color: "text-gold" },
+      // Mid accents — kept small & very faint, away from center reading column
+      { top: "40%", left: "-10%",  size: "clamp(160px, 26vw, 360px)", dur: 240, rev: false, o: 0.06, color: "text-maroon" },
+      { top: "55%", right: "-10%", size: "clamp(160px, 26vw, 360px)", dur: 260, rev: true,  o: 0.06, color: "text-gold" },
     ],
     [],
   );
@@ -75,16 +79,16 @@ function MandalaBackground() {
         <motion.div
           key={i}
           className={`absolute ${m.color}`}
-          style={{ top: m.top, left: m.left, width: m.size, height: m.size }}
+          style={{ top: m.top, left: (m as any).left, right: (m as any).right, bottom: (m as any).bottom, width: m.size, height: m.size }}
           animate={{
             rotate: m.rev ? [0, -360] : [0, 360],
-            y: [0, -14, 0, 12, 0],
+            y: [0, -10, 0, 10, 0],
             opacity: [m.o * 0.7, m.o, m.o * 0.75],
           }}
           transition={{
             rotate: { duration: m.dur, ease: "linear", repeat: Infinity },
-            y: { duration: 18 + i * 2, ease: "easeInOut", repeat: Infinity },
-            opacity: { duration: 10 + i, ease: "easeInOut", repeat: Infinity },
+            y: { duration: 20 + i * 2, ease: "easeInOut", repeat: Infinity },
+            opacity: { duration: 12 + i, ease: "easeInOut", repeat: Infinity },
           }}
         >
           <Mandala className="h-full w-full" />
@@ -724,7 +728,7 @@ function Events() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute -left-10 bottom-0 hidden md:block w-[38%] max-w-[360px] lg:max-w-[420px] float-slow z-0"
+        className="pointer-events-none absolute -left-6 md:-left-10 bottom-0 w-[55%] max-w-[240px] sm:max-w-[300px] md:w-[38%] md:max-w-[360px] lg:max-w-[420px] opacity-40 md:opacity-100 float-slow z-0"
       />
       <div className="relative z-10 mx-auto max-w-3xl md:pl-44 lg:pl-56">
         <Reveal>
@@ -977,7 +981,23 @@ function Invitation() {
     if (!a) return;
     a.volume = 0.35;
     a.loop = true;
-    a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    const tryPlay = () => a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    tryPlay();
+    // Fallback: browsers that block autoplay will start on first user gesture
+    const onGesture = () => {
+      tryPlay();
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+      window.removeEventListener("touchstart", onGesture);
+    };
+    window.addEventListener("pointerdown", onGesture, { once: true });
+    window.addEventListener("keydown", onGesture, { once: true });
+    window.addEventListener("touchstart", onGesture, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+      window.removeEventListener("touchstart", onGesture);
+    };
   }, []);
 
   const toggle = async () => {
