@@ -354,6 +354,55 @@ function Petals() {
   );
 }
 
+/* ---------- floral backdrop ---------- */
+
+function FloralBackdrop() {
+  const blooms = useMemo(
+    () =>
+      Array.from({ length: 9 }, (_, i) => ({
+        top: `${(i * 13 + 7) % 90}%`,
+        left: `${(i * 19 + 5) % 92}%`,
+        size: 90 + (i % 4) * 40,
+        rot: (i * 37) % 360,
+        delay: `${(i * 1.7) % 10}s`,
+        driftDelay: `${(i * 2.3) % 12}s`,
+        color: ["oklch(0.72 0.14 30)", "oklch(0.82 0.11 65)", "oklch(0.78 0.13 45)", "oklch(0.75 0.16 75)", "oklch(0.68 0.12 78)"][i % 5],
+      })),
+    [],
+  );
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[0] overflow-hidden" aria-hidden>
+      {blooms.map((b, i) => (
+        <span
+          key={`b-${i}`}
+          className="absolute drift"
+          style={{
+            top: b.top,
+            left: b.left,
+            width: b.size,
+            height: b.size,
+            animationDelay: b.driftDelay,
+          }}
+        >
+          <span
+            className="block h-full w-full bloom"
+            style={{ animationDelay: b.delay, transform: `rotate(${b.rot}deg)` }}
+          >
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <g fill={b.color} opacity="0.9">
+                {[0, 60, 120, 180, 240, 300].map((r) => (
+                  <ellipse key={r} cx="50" cy="30" rx="12" ry="22" transform={`rotate(${r} 50 50)`} />
+                ))}
+                <circle cx="50" cy="50" r="7" fill="oklch(0.85 0.14 85)" />
+              </g>
+            </svg>
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 /* ---------- hero ---------- */
 
 function Hero() {
@@ -667,8 +716,17 @@ const EVENTS = [
 
 function Events() {
   return (
-    <section className="relative py-24 md:py-36 px-6 bg-parchment paper-texture">
-      <div className="relative z-10 mx-auto max-w-3xl">
+    <section className="relative overflow-hidden py-24 md:py-36 px-6 bg-parchment paper-texture">
+      <motion.img
+        src={cornerBottom}
+        alt=""
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute -left-10 bottom-0 hidden md:block w-[38%] max-w-[360px] lg:max-w-[420px] float-slow z-0"
+      />
+      <div className="relative z-10 mx-auto max-w-3xl md:pl-44 lg:pl-56">
         <Reveal>
           <div className="text-center">
             <p className="font-sc text-xs md:text-sm uppercase tracking-[0.5em] text-maroon-deep text-readable">Auspicious Hour</p>
@@ -726,16 +784,8 @@ function Events() {
 function Venue() {
   return (
     <section className="relative overflow-hidden py-28 md:py-36 px-6 bg-ivory paper-texture">
-      <motion.img
-        src={cornerBottom}
-        alt=""
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute -left-8 bottom-0 w-[48%] max-w-[380px] md:max-w-[440px] float-slow"
-      />
-      <div className="relative z-10 mx-auto max-w-2xl text-center md:pl-44 lg:pl-56">
+      <div className="relative z-10 mx-auto max-w-2xl text-center">
+
         <Reveal>
           <p className="font-sc text-xs md:text-sm uppercase tracking-[0.5em] text-maroon-deep text-readable">The Venue</p>
           <h2 className="mt-4 font-display text-5xl md:text-6xl text-maroon-deep">U.B.R. Convention</h2>
@@ -949,6 +999,7 @@ function Invitation() {
   return (
     <main className="relative overflow-hidden">
       <MandalaBackground />
+      <FloralBackdrop />
       <Petals />
       <Hero />
       <Invocation />
