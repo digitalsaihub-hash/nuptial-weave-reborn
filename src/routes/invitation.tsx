@@ -724,7 +724,7 @@ function Events() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute -left-10 bottom-0 hidden md:block w-[38%] max-w-[360px] lg:max-w-[420px] float-slow z-0"
+        className="pointer-events-none absolute -left-6 md:-left-10 bottom-0 w-[55%] max-w-[240px] sm:max-w-[300px] md:w-[38%] md:max-w-[360px] lg:max-w-[420px] opacity-40 md:opacity-100 float-slow z-0"
       />
       <div className="relative z-10 mx-auto max-w-3xl md:pl-44 lg:pl-56">
         <Reveal>
