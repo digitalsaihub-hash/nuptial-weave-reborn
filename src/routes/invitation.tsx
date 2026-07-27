@@ -735,16 +735,8 @@ function Events() {
 function Venue() {
   return (
     <section className="relative overflow-hidden py-28 md:py-36 px-6 bg-ivory paper-texture">
-      <motion.img
-        src={cornerBottom}
-        alt=""
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute -left-8 bottom-0 w-[48%] max-w-[380px] md:max-w-[440px] float-slow"
-      />
-      <div className="relative z-10 mx-auto max-w-2xl text-center md:pl-44 lg:pl-56">
+      <div className="relative z-10 mx-auto max-w-2xl text-center">
+
         <Reveal>
           <p className="font-sc text-xs md:text-sm uppercase tracking-[0.5em] text-maroon-deep text-readable">The Venue</p>
           <h2 className="mt-4 font-display text-5xl md:text-6xl text-maroon-deep">U.B.R. Convention</h2>
