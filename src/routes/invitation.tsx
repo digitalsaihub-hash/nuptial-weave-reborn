@@ -354,6 +354,55 @@ function Petals() {
   );
 }
 
+/* ---------- floral backdrop ---------- */
+
+function FloralBackdrop() {
+  const blooms = useMemo(
+    () =>
+      Array.from({ length: 9 }, (_, i) => ({
+        top: `${(i * 13 + 7) % 90}%`,
+        left: `${(i * 19 + 5) % 92}%`,
+        size: 90 + (i % 4) * 40,
+        rot: (i * 37) % 360,
+        delay: `${(i * 1.7) % 10}s`,
+        driftDelay: `${(i * 2.3) % 12}s`,
+        color: ["oklch(0.72 0.14 30)", "oklch(0.82 0.11 65)", "oklch(0.78 0.13 45)", "oklch(0.75 0.16 75)", "oklch(0.68 0.12 78)"][i % 5],
+      })),
+    [],
+  );
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[0] overflow-hidden" aria-hidden>
+      {blooms.map((b, i) => (
+        <span
+          key={`b-${i}`}
+          className="absolute drift"
+          style={{
+            top: b.top,
+            left: b.left,
+            width: b.size,
+            height: b.size,
+            animationDelay: b.driftDelay,
+          }}
+        >
+          <span
+            className="block h-full w-full bloom"
+            style={{ animationDelay: b.delay, transform: `rotate(${b.rot}deg)` }}
+          >
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <g fill={b.color} opacity="0.9">
+                {[0, 60, 120, 180, 240, 300].map((r) => (
+                  <ellipse key={r} cx="50" cy="30" rx="12" ry="22" transform={`rotate(${r} 50 50)`} />
+                ))}
+                <circle cx="50" cy="50" r="7" fill="oklch(0.85 0.14 85)" />
+              </g>
+            </svg>
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 /* ---------- hero ---------- */
 
 function Hero() {
