@@ -999,6 +999,7 @@ function Invitation() {
   return (
     <main className="relative overflow-hidden">
       <MandalaBackground />
+      <FloralBackdrop />
       <Petals />
       <Hero />
       <Invocation />
