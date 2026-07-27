@@ -981,7 +981,23 @@ function Invitation() {
     if (!a) return;
     a.volume = 0.35;
     a.loop = true;
-    a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    const tryPlay = () => a.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    tryPlay();
+    // Fallback: browsers that block autoplay will start on first user gesture
+    const onGesture = () => {
+      tryPlay();
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+      window.removeEventListener("touchstart", onGesture);
+    };
+    window.addEventListener("pointerdown", onGesture, { once: true });
+    window.addEventListener("keydown", onGesture, { once: true });
+    window.addEventListener("touchstart", onGesture, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+      window.removeEventListener("touchstart", onGesture);
+    };
   }, []);
 
   const toggle = async () => {
