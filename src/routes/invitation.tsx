@@ -9,7 +9,7 @@ import cornerTop from "@/assets/corner-top.png";
 import cornerBottom from "@/assets/corner-bottom.png";
 import ganeshaImg from "@/assets/ganesha.png";
 import mandalaImg from "@/assets/mandala.png";
-import musicAsset from "@/assets/vaishnavi-bhargav-wedding.mp3.asset.json";
+import musicAsset from "@/assets/seetha-kalyanam.mp3.asset.json";
 
 
 export const Route = createFileRoute("/invitation")({
