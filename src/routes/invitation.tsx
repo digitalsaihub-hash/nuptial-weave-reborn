@@ -667,8 +667,17 @@ const EVENTS = [
 
 function Events() {
   return (
-    <section className="relative py-24 md:py-36 px-6 bg-parchment paper-texture">
-      <div className="relative z-10 mx-auto max-w-3xl">
+    <section className="relative overflow-hidden py-24 md:py-36 px-6 bg-parchment paper-texture">
+      <motion.img
+        src={cornerBottom}
+        alt=""
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute -left-10 bottom-0 hidden md:block w-[38%] max-w-[360px] lg:max-w-[420px] float-slow z-0"
+      />
+      <div className="relative z-10 mx-auto max-w-3xl md:pl-44 lg:pl-56">
         <Reveal>
           <div className="text-center">
             <p className="font-sc text-xs md:text-sm uppercase tracking-[0.5em] text-maroon-deep text-readable">Auspicious Hour</p>
