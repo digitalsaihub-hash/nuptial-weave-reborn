@@ -1,9 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 import ganeshaImg from "@/assets/ganesha.png";
-import mandalaImg from "@/assets/mandala.png";
+
 
 export const Route = createFileRoute("/")({
   component: SplashPage,
