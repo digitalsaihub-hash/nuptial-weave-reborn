@@ -91,7 +91,7 @@ function SplashPage() {
 
   return (
     <main className="fixed inset-0 flex items-center justify-center overflow-hidden bg-parchment paper-texture">
-      <MandalaBackground />
+      
       <div className="pointer-events-none absolute inset-4 md:inset-8 border border-gold/30" />
       <div className="pointer-events-none absolute inset-[22px] md:inset-[42px] border border-gold/15" />
 
