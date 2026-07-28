@@ -66,26 +66,31 @@ function Mandala({ className = "", opacity = 1 }: { className?: string; opacity?
 function MandalaBackground() {
   const items = useMemo(
     () => [
-      // Four corners — hug the edges, well past the reading column
-      { top: "-18%", left: "-18%",  size: "clamp(260px, 46vw, 620px)", dur: 180, rev: false, o: 0.12 },
-      { top: "-16%", right: "-20%", size: "clamp(220px, 40vw, 540px)", dur: 220, rev: true,  o: 0.10 },
-      { bottom: "-20%", left: "-16%", size: "clamp(240px, 42vw, 560px)", dur: 240, rev: true,  o: 0.11 },
-      { bottom: "-22%", right: "-18%", size: "clamp(280px, 48vw, 660px)", dur: 200, rev: false, o: 0.12 },
-      // Scattered mid accents down the page — very faint, tucked outside the copy column
-      { top: "28%",  left: "-14%",  size: "clamp(180px, 28vw, 380px)", dur: 260, rev: false, o: 0.07 },
-      { top: "48%",  right: "-14%", size: "clamp(180px, 28vw, 380px)", dur: 280, rev: true,  o: 0.07 },
-      { top: "72%",  left: "-16%",  size: "clamp(200px, 30vw, 420px)", dur: 300, rev: true,  o: 0.08 },
-      { top: "92%",  right: "-16%", size: "clamp(200px, 30vw, 420px)", dur: 320, rev: false, o: 0.08 },
+      // Four corners
+      { top: "-14%", left: "-16%",  size: "clamp(260px, 46vw, 620px)", dur: 180, rev: false, o: 0.22 },
+      { top: "-12%", right: "-18%", size: "clamp(220px, 40vw, 540px)", dur: 220, rev: true,  o: 0.20 },
+      { bottom: "-18%", left: "-14%", size: "clamp(240px, 42vw, 560px)", dur: 240, rev: true,  o: 0.22 },
+      { bottom: "-20%", right: "-16%", size: "clamp(280px, 48vw, 660px)", dur: 200, rev: false, o: 0.24 },
+      // Scattered mid-edge accents — faint, outside reading column
+      { top: "26%",  left: "-18%",  size: "clamp(180px, 30vw, 420px)", dur: 260, rev: false, o: 0.14 },
+      { top: "46%",  right: "-18%", size: "clamp(180px, 30vw, 420px)", dur: 280, rev: true,  o: 0.14 },
+      { top: "66%",  left: "-18%",  size: "clamp(200px, 32vw, 460px)", dur: 300, rev: true,  o: 0.14 },
+      { top: "86%",  right: "-18%", size: "clamp(200px, 32vw, 460px)", dur: 320, rev: false, o: 0.14 },
     ],
     [],
   );
   return (
-    <div className="pointer-events-none fixed inset-0 z-[0] overflow-hidden" aria-hidden>
+    <div
+      className="pointer-events-none fixed inset-0 z-30 overflow-hidden"
+      style={{ mixBlendMode: "multiply" }}
+      aria-hidden
+    >
       {items.map((m, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{ top: (m as any).top, left: (m as any).left, right: (m as any).right, bottom: (m as any).bottom, width: m.size, height: m.size }}
+
           animate={{
             rotate: m.rev ? [0, -360] : [0, 360],
             y: [0, -10, 0, 10, 0],
