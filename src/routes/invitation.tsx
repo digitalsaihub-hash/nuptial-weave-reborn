@@ -52,7 +52,11 @@ function Mandala({ className = "", opacity = 1 }: { className?: string; opacity?
       height={1024}
       loading="lazy"
       className={`select-none ${className}`}
-      style={{ opacity, filter: "drop-shadow(0 0 24px oklch(0.68 0.12 78 / 0.25))" }}
+      style={{
+        opacity,
+        mixBlendMode: "multiply",
+        filter: "drop-shadow(0 0 24px oklch(0.68 0.12 78 / 0.15))",
+      }}
       draggable={false}
     />
   );
@@ -62,14 +66,16 @@ function Mandala({ className = "", opacity = 1 }: { className?: string; opacity?
 function MandalaBackground() {
   const items = useMemo(
     () => [
-      // Corners — anchored so they hug edges on every viewport
-      { top: "-14%", left: "-14%",  size: "clamp(220px, 42vw, 560px)", dur: 160, rev: false, o: 0.10, color: "text-gold" },
-      { top: "-12%", right: "-14%", size: "clamp(200px, 38vw, 500px)", dur: 200, rev: true,  o: 0.09, color: "text-maroon" },
-      { bottom: "-14%", left: "-12%", size: "clamp(220px, 40vw, 540px)", dur: 220, rev: true,  o: 0.08, color: "text-gold-dark" },
-      { bottom: "-16%", right: "-14%", size: "clamp(240px, 44vw, 600px)", dur: 180, rev: false, o: 0.10, color: "text-gold" },
-      // Mid accents — kept small & very faint, away from center reading column
-      { top: "40%", left: "-10%",  size: "clamp(160px, 26vw, 360px)", dur: 240, rev: false, o: 0.06, color: "text-maroon" },
-      { top: "55%", right: "-10%", size: "clamp(160px, 26vw, 360px)", dur: 260, rev: true,  o: 0.06, color: "text-gold" },
+      // Four corners — hug the edges, well past the reading column
+      { top: "-18%", left: "-18%",  size: "clamp(260px, 46vw, 620px)", dur: 180, rev: false, o: 0.12 },
+      { top: "-16%", right: "-20%", size: "clamp(220px, 40vw, 540px)", dur: 220, rev: true,  o: 0.10 },
+      { bottom: "-20%", left: "-16%", size: "clamp(240px, 42vw, 560px)", dur: 240, rev: true,  o: 0.11 },
+      { bottom: "-22%", right: "-18%", size: "clamp(280px, 48vw, 660px)", dur: 200, rev: false, o: 0.12 },
+      // Scattered mid accents down the page — very faint, tucked outside the copy column
+      { top: "28%",  left: "-14%",  size: "clamp(180px, 28vw, 380px)", dur: 260, rev: false, o: 0.07 },
+      { top: "48%",  right: "-14%", size: "clamp(180px, 28vw, 380px)", dur: 280, rev: true,  o: 0.07 },
+      { top: "72%",  left: "-16%",  size: "clamp(200px, 30vw, 420px)", dur: 300, rev: true,  o: 0.08 },
+      { top: "92%",  right: "-16%", size: "clamp(200px, 30vw, 420px)", dur: 320, rev: false, o: 0.08 },
     ],
     [],
   );
@@ -78,17 +84,17 @@ function MandalaBackground() {
       {items.map((m, i) => (
         <motion.div
           key={i}
-          className={`absolute ${m.color}`}
-          style={{ top: m.top, left: (m as any).left, right: (m as any).right, bottom: (m as any).bottom, width: m.size, height: m.size }}
+          className="absolute"
+          style={{ top: (m as any).top, left: (m as any).left, right: (m as any).right, bottom: (m as any).bottom, width: m.size, height: m.size }}
           animate={{
             rotate: m.rev ? [0, -360] : [0, 360],
             y: [0, -10, 0, 10, 0],
-            opacity: [m.o * 0.7, m.o, m.o * 0.75],
+            opacity: [m.o * 0.75, m.o, m.o * 0.8],
           }}
           transition={{
             rotate: { duration: m.dur, ease: "linear", repeat: Infinity },
-            y: { duration: 20 + i * 2, ease: "easeInOut", repeat: Infinity },
-            opacity: { duration: 12 + i, ease: "easeInOut", repeat: Infinity },
+            y: { duration: 22 + i * 2, ease: "easeInOut", repeat: Infinity },
+            opacity: { duration: 14 + i, ease: "easeInOut", repeat: Infinity },
           }}
         >
           <Mandala className="h-full w-full" />
@@ -97,6 +103,7 @@ function MandalaBackground() {
     </div>
   );
 }
+
 
 /* ---------- month calendar ---------- */
 
